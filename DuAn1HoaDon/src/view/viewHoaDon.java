@@ -35,6 +35,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
  * @author Chien
  */
 public class viewHoaDon extends javax.swing.JFrame {
+
     private HoaDonService hoaDonService = new HoaDonService();
     private HinhThucThanhToanService hinhThucThanhToanService = new HinhThucThanhToanService();
     private HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
@@ -55,33 +56,32 @@ public class viewHoaDon extends javax.swing.JFrame {
         model = (DefaultTableModel) tblHoaDon.getModel();
         listHoaDonCHiTiet = hoaDonChiTietService.getAll();
         model1 = (DefaultTableModel) tblHoaDonChiTiet.getModel();
-        
+
         ShowTable();
         showTableHDCT();
     }
 
-    
-    public void ShowTable(){
+    public void ShowTable() {
         model.setRowCount(0);
         for (HoaDon hd : listHoaDon) {
             model.addRow(new Object[]{
-                hd.getId(),hd.getNgayDat(),hd.getTongTien(),hd.getIdNhanVien(),hd.getIdKhachHang(),hd.getDiaChi()
+                hd.getId(), hd.getNgayDat(), hd.getTongTien(), hd.getIdNhanVien(), hd.getIdKhachHang(), hd.getDiaChi()
             });
         }
     }
-    
-    public void showdetal(int index){
+
+    public void showdetal(int index) {
         HoaDon hd = listHoaDon.get(index);
         txtIdHoaDon.setText(String.valueOf(hd.getId()));
-         txtIdKhachHang.setText(hd.getIdKhachHang());
-          txtIdNhanVien.setText(hd.getIdNhanVien());
-           txtNgayDat.setText(hd.getNgayDat());
-            txtNgayXacNhan.setText(hd.getNgayXacNhan());
-             txtTongTien.setText(hd.getTongTien());
-              txtTrangThai.setText(hd.getDiaChi());
+        txtIdKhachHang.setText(hd.getIdKhachHang());
+        txtIdNhanVien.setText(hd.getIdNhanVien());
+        txtNgayDat.setText(hd.getNgayDat());
+        txtNgayXacNhan.setText(hd.getNgayXacNhan());
+        txtTongTien.setText(hd.getTongTien());
+        txtTrangThai.setText(hd.getDiaChi());
     }
-    
-    public void showTable2(){
+
+    public void showTable2() {
         model.setRowCount(0);
         for (int i = 0; i < listHoaDon.size(); i++) {
             Vector v = new Vector();
@@ -94,16 +94,17 @@ public class viewHoaDon extends javax.swing.JFrame {
             v.add(listHoaDon.get(i).getDiaChi());
         }
     }
-    
-    public void showTableHDCT(){
+
+    public void showTableHDCT() {
         model1.setRowCount(0);
         for (HoaDonChiTiet hd : listHoaDonCHiTiet) {
-           model1.addRow(new Object[]{
-                hd.getId(),hd.getIdHoaDon(),hd.getIdSanPhamChiTiet(),hd.getSoLuong(),hd.getGiaTien()
-           });
+            model1.addRow(new Object[]{
+                hd.getId(), hd.getIdHoaDon(), hd.getIdSanPhamChiTiet(), hd.getSoLuong(), hd.getGiaTien()
+            });
         }
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -429,7 +430,7 @@ public class viewHoaDon extends javax.swing.JFrame {
                         .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,7 +488,7 @@ public class viewHoaDon extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 758, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -545,9 +546,12 @@ public class viewHoaDon extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
-      
+        JOptionPane.showMessageDialog(this, "Xuất file thành công");
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtFindByIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFindByIdActionPerformed
@@ -584,17 +588,28 @@ public class viewHoaDon extends javax.swing.JFrame {
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
-         int row = tblHoaDon.getSelectedRow();
-         showdetal(row);
+        int row = tblHoaDon.getSelectedRow();
+        showdetal(row);
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void txtFindByIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindByIdKeyTyped
         // TODO add your handling code here:
-        String id =   (txtFindById.getText());
-     listHoaDon= hoaDonService.findById(id);
+//        String id = (txtFindById.getText());
+//        listHoaDon = hoaDonService.findById(id);
+//
+//        ShowTable();
+
+        String id = txtFindById.getText().trim(); // Lấy giá trị từ ô văn bản và loại bỏ khoảng trắng thừa
+
+        if (!id.isEmpty()) { // Kiểm tra xem ô văn bản có giá trị không trống
+            listHoaDon = hoaDonService.findById(id);
+            ShowTable();
+        }
+//          String ngay = (txtFindById.getText());
+//        listHoaDon = hoaDonService.findByNgay(ngay);
+//        ShowTable();
         
-        ShowTable();
-        
+
     }//GEN-LAST:event_txtFindByIdKeyTyped
 
     private void txtFindByIdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindByIdKeyReleased

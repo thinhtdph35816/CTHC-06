@@ -113,7 +113,7 @@ public class HoaDonService {
                                                 ,[IdKhachHang]
                                                 ,[IdNhanVien]
                                                 ,[DiaChi]
-                                            FROM [dbo].[HoaDon] where  Id LIKE ?;
+                                            FROM [dbo].[HoaDon] where  Id = ?;
                      """;
         try(Connection con = DBconnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, id);
@@ -122,7 +122,33 @@ public class HoaDonService {
             while(rs.next()){
                     HoaDon hd = new HoaDon(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
                     searchId.add(hd);
-                    }
+                    } 
+            return searchId;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+     
+     public List<HoaDon> findByNgay(String ngayXacNhan){
+        String sql = """
+                     SELECT [Id]
+                                          ,[NgayDat]
+                                           ,[NgayXacNhan]
+                                            ,[TongTien]
+                                                ,[IdKhachHang]
+                                                ,[IdNhanVien]
+                                                ,[DiaChi]
+                                            FROM [dbo].[HoaDon] where NgayXacNhan  = ?;
+                     """;
+        try(Connection con = DBconnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, ngayXacNhan);
+            ResultSet rs = ps.executeQuery();
+            List<HoaDon> searchId = new ArrayList<>();
+            while(rs.next()){
+                    HoaDon hd = new HoaDon(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                    searchId.add(hd);
+                    } 
             return searchId;
         } catch (Exception e) {
             e.printStackTrace();
